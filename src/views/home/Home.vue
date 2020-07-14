@@ -3,17 +3,20 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
+    <swiper/>
   </div>
 </template>
  
 <script>
 import NavBar from "components/common/navbar/NavBar";
 import { getHomeMultidata } from "network/home";
+import Swiper from "components/content/bannerLoop/Swiper"
 
 export default {
   name: "Home",
   components: {
-    NavBar
+    NavBar,
+    Swiper
   },
   data() {
     return {
