@@ -25,8 +25,8 @@ export default {
     isActive() {
       return this.$route.path.indexOf(this.path) !== -1;
     },
-    activeStyle(){
-      return this.isActive ? {color:this.activeColor} : {}
+    activeStyle() {
+      return this.isActive ? { color: this.activeColor } : {};
     }
   },
   methods: {
@@ -48,8 +48,8 @@ export default {
   font-size: 14px;
 }
 .tab-bar-item > img {
+  margin: 4px 0;
   width: 24px;
-  margin-top: 5px;
   vertical-align: middle;
 }
 </style>
