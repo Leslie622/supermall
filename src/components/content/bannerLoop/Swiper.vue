@@ -15,14 +15,17 @@ import "swiper/dist/css/swiper.css";
 import { getHomeMultidata } from "network/home";
 
 export default {
+  props: {
+    banners: {
+      type: Array
+    }
+  },
   components: {
     Swiper,
     SwiperSlide
   },
   data() {
     return {
-      banners: null,
-      recommends: null,
       swiperOption: {
         initialSlide: 1,
         centeredSlides: true,
@@ -59,7 +62,7 @@ export default {
     };
   },
   computed: {
-    //这里是获取实例对象
+    //获取实例对象
     swiper() {
       console.log(this.$refs.mySwiper.$swiper);
       return this.$refs.mySwiper.$swiper;
@@ -74,33 +77,22 @@ export default {
         this.swiper.slideToLoop(cIndex--, 1000, false);
       }
     }
-  },
-  created() {
-    // 1.请求多个数据
-    getHomeMultidata().then(res => {
-      console.log(res);
-      //存储请求过来的数据
-      this.banners = res.data.banner.list;
-      this.recommends = res.data.recommend.list;
-    });
-  },
-  mounted() {
-    //mounted--> 完成渲染后也可以获取实例对象
-    // console.log("Current Swiper instance object", this.swiper);
   }
 };
 </script>
 
 <style scoped>
 .myswiper {
+  margin-top: 44px;
   width: 100%;
-  height: 200px;
+  height: 100%;
   background-color: aqua;
 }
 
 .swiper-slide {
   width: 100%;
   height: 100%;
+  font-size: 0;
   background-color: #008c8c;
 }
 .swiper-slide img {
@@ -110,7 +102,6 @@ export default {
 
 自定义分页器样式
 <style>
-
 .myswiper-pagination {
   z-index: 1;
   position: absolute;
@@ -133,7 +124,7 @@ export default {
   height: 10px;
   margin: 0 5px;
   border-radius: 50%;
-  background-color: rgb(235, 229, 229, 0.5);
+  background-color: rgb(236, 231, 231, 0.8);
 }
 
 .myswiper-pagination-customs-active {
