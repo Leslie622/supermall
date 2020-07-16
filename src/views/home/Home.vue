@@ -4,20 +4,17 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <swiper :banners="banners" />
+    <scroll class="content">
+      <swiper :banners="banners" />
 
-    <recommend-view :recommends="recommends" />
+      <recommend-view :recommends="recommends" />
 
-    <feature-view></feature-view>
+      <feature-view></feature-view>
 
-    <tab-control class="tab-control" :titles="['流行','新款','精选']"></tab-control>
+      <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
 
-    <goods-list :goods="goods.pop.list"></goods-list>
-
-    <ul>
-      <li></li>
-      <li></li>
-    </ul>
+      <goods-list :goods="goods[currentType].list"></goods-list>
+    </scroll>
   </div>
 </template>
  
@@ -29,6 +26,7 @@ import NavBar from "components/common/navbar/NavBar";
 import Swiper from "components/content/bannerLoop/Swiper";
 import TabControl from "components/content/tabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
+import Scroll from "components/common/scroll/Scroll";
 
 import { getHomeMultidata, getHomeGoods } from "network/home";
 
@@ -40,7 +38,8 @@ export default {
     NavBar,
     Swiper,
     TabControl,
-    GoodsList
+    GoodsList,
+    Scroll
   },
   data() {
     return {
@@ -50,7 +49,8 @@ export default {
         pop: { page: 0, list: [] },
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
-      }
+      },
+      currentType: "pop"
     };
   },
   created() {
@@ -62,6 +62,9 @@ export default {
     this.getHomeGoods("sell");
   },
   methods: {
+    /*
+     *  网络请求相关方法
+     */
     getHomeMultidata() {
       getHomeMultidata().then(res => {
         //存储请求过来的数据
@@ -72,10 +75,25 @@ export default {
     getHomeGoods(type) {
       const page = this.goods[type].page + 1;
       getHomeGoods(type, page).then(res => {
-        console.log(res);
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
       });
+    },
+    /*
+     *  事件监听相关方法
+     */
+    tabClick(index) {
+      switch (index) {
+        case 0:
+          this.currentType = "pop";
+          break;
+        case 1:
+          this.currentType = "new";
+          break;
+        case 2:
+          this.currentType = "sell";
+          break;
+      }
     }
   }
 };
@@ -95,5 +113,10 @@ export default {
 .tab-control {
   position: sticky;
   top: 44px;
+}
+
+.content {
+  height: calc(100vh - 93px);
+  background-color: red;
 }
 </style>
