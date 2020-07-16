@@ -4,7 +4,7 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content">
+    <scroll class="content" ref="scroll">
       <swiper :banners="banners" />
 
       <recommend-view :recommends="recommends" />
@@ -15,6 +15,8 @@
 
       <goods-list :goods="goods[currentType].list"></goods-list>
     </scroll>
+
+    <back-top @click.native="backTop" />
   </div>
 </template>
  
@@ -27,6 +29,7 @@ import Swiper from "components/content/bannerLoop/Swiper";
 import TabControl from "components/content/tabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
 import Scroll from "components/common/scroll/Scroll";
+import BackTop from "components/content/backTop/BackTop";
 
 import { getHomeMultidata, getHomeGoods } from "network/home";
 
@@ -39,7 +42,8 @@ export default {
     Swiper,
     TabControl,
     GoodsList,
-    Scroll
+    Scroll,
+    BackTop
   },
   data() {
     return {
@@ -94,6 +98,10 @@ export default {
           this.currentType = "sell";
           break;
       }
+    },
+    backTop() {
+      console.log("a");
+      this.$refs.scroll.scrollTo(0, 0);
     }
   }
 };
@@ -110,13 +118,7 @@ export default {
   color: white;
 }
 
-.tab-control {
-  position: sticky;
-  top: 44px;
-}
-
 .content {
   height: calc(100vh - 93px);
-  background-color: red;
 }
 </style>

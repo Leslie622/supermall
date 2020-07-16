@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper" ref="wrapper">
-     <div class="content">
-       <slot></slot>
-     </div>
+    <div class="content">
+      <slot></slot>
+    </div>
   </div>
 </template>
  
@@ -10,14 +10,15 @@
 import BScroll from "better-scroll";
 
 export default {
-   data() {
+  data() {
     return {
-      scroll:null
+      scroll: null
     };
   },
   mounted() {
     this.scroll = new BScroll(this.$refs.wrapper, {
       probeType: 3,
+      click: true,
       momentumLimitTime: 200,
       pullUpLoad: {
         threshold: -40
@@ -30,13 +31,12 @@ export default {
     });
   },
   methods: {
-    clickme() {
-      console.log("a");
+    scrollTo(x, y, time = 1000) {
+      this.scroll.scrollTo(x, y, time);
     }
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>
