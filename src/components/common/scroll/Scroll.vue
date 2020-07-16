@@ -10,6 +10,20 @@
 import BScroll from "better-scroll";
 
 export default {
+  props:{
+    probeType:{
+      type:Number,
+      default(){
+        return 0
+      }
+    },
+    pullUpLoad:{
+      type:[Object,Boolean],
+      default(){
+        return true
+      }
+    }
+  },
   data() {
     return {
       scroll: null
@@ -17,16 +31,16 @@ export default {
   },
   mounted() {
     this.scroll = new BScroll(this.$refs.wrapper, {
-      probeType: 3,
+      probeType: this.probeType,
       click: true,
       momentumLimitTime: 200,
-      pullUpLoad: {
-        threshold: -40
-      }
+      pullUpLoad: this.pullUpLoad
     });
-    this.scroll.on("scroll", position => {});
+    this.scroll.on("scroll", position => {
+      this.$emit("scroll",position)
+    });
     this.scroll.on("pullingUp", () => {
-      console.log("上拉加载更多");
+      this.$emit("pullingUp")
       this.scroll.finishPullUp();
     });
   },

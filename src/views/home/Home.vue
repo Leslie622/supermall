@@ -4,7 +4,14 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content" ref="scroll">
+    <scroll
+      class="content"
+      ref="scroll"
+      :probe-type="3"
+      @scroll="contentScroll"
+      :pull-up-load="{threshold:-40}"
+      @pullingUp="loadMore"
+    >
       <swiper :banners="banners" />
 
       <recommend-view :recommends="recommends" />
@@ -16,7 +23,7 @@
       <goods-list :goods="goods[currentType].list"></goods-list>
     </scroll>
 
-    <back-top @click.native="backTop" />
+    <back-top @click.native="backTop" v-show="backTopIsShow" />
   </div>
 </template>
  
@@ -54,7 +61,8 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      currentType: "pop"
+      currentType: "pop",
+      backTopIsShow: false
     };
   },
   created() {
@@ -102,6 +110,14 @@ export default {
     backTop() {
       console.log("a");
       this.$refs.scroll.scrollTo(0, 0);
+    },
+    contentScroll(position) {
+      this.backTopIsShow = position.y < -1000;
+    },
+    loadMore() {
+      console.log("上拉加载更多");
+      this.getHomeGoods(this.currentType);
+      this.$refs.scroll.scroll.refresh();
     }
   }
 };
