@@ -2,7 +2,7 @@
   <swiper ref="mySwiper" class="myswiper" :options="swiperOption">
     <swiper-slide v-for="(item,key) in banners" :key="key">
       <a :href="item.link">
-        <img :src="item.image" />
+        <img :src="item.image" @load="swiperImageLoad" />
       </a>
     </swiper-slide>
     <div @click="slideto" class="myswiper-pagination" slot="pagination"></div>
@@ -58,7 +58,8 @@ export default {
             );
           }
         }
-      }
+      },
+      isLoad: false
     };
   },
   computed: {
@@ -74,6 +75,12 @@ export default {
         return;
       } else {
         this.swiper.slideToLoop(cIndex--, 1000, false);
+      }
+    },
+    swiperImageLoad() {
+      if (!this.isLoad) {
+        this.$emit("swiperImageLoad");
+        this.isLoad = true;
       }
     }
   }

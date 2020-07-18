@@ -3,7 +3,13 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-
+    <tab-control
+      :titles="['流行','新款','精选']"
+      @tabClick="tabClick"
+      ref="tabControl1"
+      class="tab-control"
+      v-show="isTabShow"
+    />
     <scroll
       class="content"
       ref="scroll"
@@ -12,13 +18,13 @@
       :pull-up-load="{threshold:-40}"
       @pullingUp="loadMore"
     >
-      <swiper :banners="banners" />
+      <swiper :banners="banners" @swiperImageLoad="swiperImageLoad" />
 
       <recommend-view :recommends="recommends" />
 
       <feature-view></feature-view>
 
-      <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
+      <tab-control :titles="['流行','新款','精选']" @tabClick="tabClick" ref="tabControl2"></tab-control>
 
       <goods-list :goods="goods[currentType].list"></goods-list>
     </scroll>
@@ -63,7 +69,10 @@ export default {
         sell: { page: 0, list: [] }
       },
       currentType: "pop",
-      backTopIsShow: false
+      backTopIsShow: false,
+      tabOffsetTop: 0,
+      isTabShow: false,
+      saveY: 0
     };
   },
   created() {
@@ -114,6 +123,8 @@ export default {
           this.currentType = "sell";
           break;
       }
+      this.$refs.tabControl1.currentIndex = index;
+      this.$refs.tabControl2.currentIndex = index;
     },
     backTop() {
       console.log("a");
@@ -121,27 +132,48 @@ export default {
     },
     contentScroll(position) {
       this.backTopIsShow = position.y < -1000;
+      //决定tabControl是否吸顶
+      this.isTabShow = position.y < -this.tabOffsetTop - 44;
     },
     loadMore() {
       console.log("上拉加载更多");
       this.getHomeGoods(this.currentType);
+    },
+    swiperImageLoad() {
+      //   this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
     }
+  },
+  updated() {
+    this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
+  },
+  activated() {
+    this.$refs.scroll.scrollTo(0, this.saveY, 0);
+    this.$refs.scroll.refresh();
+  },
+  deactivated() {
+    this.saveY = this.$refs.scroll.getScrollY();
+    console.log(this.saveY);
   }
 };
 </script>
 
 <style scoped>
 .home-nav {
-  position: fixed;
-  z-index: 100;
-  left: 0;
-  right: 0;
-  top: 0;
   background-color: var(--color-tint);
   color: white;
 }
 
 .content {
-  height: calc(100vh - 93px);
+  position: absolute;
+  top: 44px;
+  bottom: 49px;
+  left: 0;
+  right: 0;
+  background-color: white;
+}
+
+.tab-control {
+  position: relative;
+  z-index: 100;
 }
 </style>

@@ -49,8 +49,10 @@ export default {
       this.scroll && this.scroll.scrollTo(x, y, time);
     },
     refresh() {
-      console.log("a");
       this.scroll && this.scroll.refresh();
+    },
+    getScrollY(){
+      return this.scroll ? this.scroll.y : 0;
     }
   }
 };
