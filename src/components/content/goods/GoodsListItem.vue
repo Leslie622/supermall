@@ -1,13 +1,11 @@
 <template>
-  <div class="goodsListItem">
-    <a :href="goodsItem.clientUrl">
-      <img :src="goodsItem.show.img" @load="imageLoad"/>
-      <div class="itemText">
-        <p>{{goodsItem.title}}</p>
-        <span class="price">{{goodsItem.price}}元</span>
-        <span class="collect">收藏数:{{goodsItem.cfav}}</span>
-      </div>
-    </a>
+  <div class="goodsListItem" @click="itemClick">
+    <img :src="goodsItem.show.img" @load="imageLoad" />
+    <div class="itemText">
+      <p>{{goodsItem.title}}</p>
+      <span class="price">{{goodsItem.price}}元</span>
+      <span class="collect">收藏数:{{goodsItem.cfav}}</span>
+    </div>
   </div>
 </template>
  
@@ -22,10 +20,13 @@ export default {
     }
   },
   methods: {
-    imageLoad(){
-      this.$bus.$emit("itemImageLoad")
+    imageLoad() {
+      this.$bus.$emit("itemImageLoad");
+    },
+    itemClick(){
+      this.$router.push("/detail"+ this.goodsItem.iid)
     }
-  },
+  }
 };
 </script>
 
@@ -39,13 +40,6 @@ export default {
   background-color: white;
   border: 1px solid rgb(233, 226, 226);
   border-radius: 10px;
-}
-
-.goodsListItem a {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
 }
 
 .goodsListItem img {
