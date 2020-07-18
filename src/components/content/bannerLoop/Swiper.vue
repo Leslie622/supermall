@@ -64,7 +64,6 @@ export default {
   computed: {
     //获取实例对象
     swiper() {
-      console.log(this.$refs.mySwiper.$swiper);
       return this.$refs.mySwiper.$swiper;
     }
   },

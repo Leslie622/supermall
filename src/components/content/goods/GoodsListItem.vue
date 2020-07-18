@@ -1,11 +1,13 @@
 <template>
   <div class="goodsListItem">
-    <img :src="goodsItem.show.img" />
-    <div class="itemText">
-      <p>{{goodsItem.title}}</p>
-      <span class="price">{{goodsItem.price}}元</span>
-      <span class="collect">收藏数:{{goodsItem.cfav}}</span>
-    </div>
+    <a :href="goodsItem.clientUrl">
+      <img :src="goodsItem.show.img" @load="imageLoad"/>
+      <div class="itemText">
+        <p>{{goodsItem.title}}</p>
+        <span class="price">{{goodsItem.price}}元</span>
+        <span class="collect">收藏数:{{goodsItem.cfav}}</span>
+      </div>
+    </a>
   </div>
 </template>
  
@@ -18,7 +20,12 @@ export default {
         return {};
       }
     }
-  }
+  },
+  methods: {
+    imageLoad(){
+      this.$bus.$emit("itemImageLoad")
+    }
+  },
 };
 </script>
 
@@ -32,6 +39,13 @@ export default {
   background-color: white;
   border: 1px solid rgb(233, 226, 226);
   border-radius: 10px;
+}
+
+.goodsListItem a {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
 }
 
 .goodsListItem img {
@@ -54,7 +68,7 @@ export default {
   white-space: nowrap;
 }
 
-.price{
+.price {
   color: tomato;
   margin: 20px;
   font-size: 14px;
