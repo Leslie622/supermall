@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <nav-bar>
-      <div slot="left" class="back" @click="backClick">
-        <i class="iconfont icon-zuojiantou"></i>
-      </div>
-      <div slot="center" class="titles">
-        <div
-          v-for="(item,index) in titles"
-          class="titleItem"
-          :class="{active:index === currentIndex}"
-          @click="titleClick(index)"
-        >{{item}}</div>
-      </div>
-    </nav-bar>
-  </div>
+  <nav-bar>
+    <div slot="left" class="back" @click="backClick">
+      <i class="iconfont icon-zuojiantou"></i>
+    </div>
+    <div slot="center" class="titles">
+      <div
+        v-for="(item,index) in titles"
+        class="titleItem"
+        :class="{active:index === currentIndex}"
+        @click="titleClick(index)"
+      >{{item}}</div>
+    </div>
+  </nav-bar>
 </template>
  
 <script>
