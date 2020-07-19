@@ -1,6 +1,6 @@
 <template>
   <div class="goodsListItem" @click="itemClick">
-    <img :src="goodsItem.show.img" @load="imageLoad" />
+    <img :src="showImage" @load="imageLoad" />
     <div class="itemText">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}元</span>
@@ -19,12 +19,21 @@ export default {
       }
     }
   },
+  computed: {
+    showImage() {
+      return this.goodsItem.image || this.goodsItem.show.img;
+    }
+  },
   methods: {
     imageLoad() {
-      this.$bus.$emit("itemImageLoad");
+      if (this.$route.path.indexOf('/home') != -1) {
+        this.$bus.$emit("homeItemImageLoad");
+      } else if (this.$route.path.indexOf('/detail') != -1) {
+        this.$bus.$emit("detailItemImageLoad");
+      }
     },
-    itemClick(){
-      this.$router.push("/detail"+ this.goodsItem.iid)
+    itemClick() {
+      this.$router.push("/detail" + this.goodsItem.iid);
     }
   }
 };

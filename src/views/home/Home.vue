@@ -46,6 +46,7 @@ import BackTop from "components/content/backTop/BackTop";
 
 import { getHomeMultidata, getHomeGoods } from "network/home";
 import { debounce } from "common/utils";
+import { itemListenerMixin } from "common/mixin";
 
 export default {
   name: "Home",
@@ -75,6 +76,7 @@ export default {
       saveY: 0
     };
   },
+  mixins: [itemListenerMixin],
   created() {
     // 1.请求多个数据
     this.getHomeMultidata();
@@ -86,7 +88,7 @@ export default {
   mounted() {
     //监听item中图片加载完成
     const refresh = debounce(this.$refs.scroll.refresh, 200);
-    this.$bus.$on("itemImageLoad", () => {
+    this.$bus.$on("homeItemImageLoad", () => {
       refresh();
     });
   },
@@ -136,19 +138,18 @@ export default {
       this.isTabShow = position.y < -this.tabOffsetTop - 44;
     },
     loadMore() {
-      console.log("上拉加载更多");
       this.getHomeGoods(this.currentType);
     },
     swiperImageLoad() {
-      //   this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
+      //this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
     }
   },
   updated() {
     this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
   },
   activated() {
-    this.$refs.scroll.scrollTo(0, this.saveY, 0);
     this.$refs.scroll.refresh();
+    this.$refs.scroll.scrollTo(0, this.saveY, 0);
   },
   deactivated() {
     this.saveY = this.$refs.scroll.getScrollY();
