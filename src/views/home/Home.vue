@@ -18,7 +18,7 @@
       :pull-up-load="{threshold:-40}"
       @pullingUp="loadMore"
     >
-      <swiper :banners="banners" @swiperImageLoad="swiperImageLoad" />
+      <swiper :banners="banners" />
 
       <recommend-view :recommends="recommends" />
 
@@ -129,7 +129,6 @@ export default {
       this.$refs.tabControl2.currentIndex = index;
     },
     backTop() {
-      console.log("a");
       this.$refs.scroll.scrollTo(0, 0);
     },
     contentScroll(position) {
@@ -139,9 +138,6 @@ export default {
     },
     loadMore() {
       this.getHomeGoods(this.currentType);
-    },
-    swiperImageLoad() {
-      //this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
     }
   },
   updated() {

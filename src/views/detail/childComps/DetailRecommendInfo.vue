@@ -8,32 +8,32 @@
 </template>
 
 <script>
-  import GridView from 'components/common/gridView/GridView'
-  import GoodsListItem from 'components/content/goods/GoodsListItem'
+import GridView from "components/common/gridView/GridView";
+import GoodsListItem from "components/content/goods/GoodsListItem";
 
-	export default {
-		name: "DetailRecommendInfo",
-    components: {
-		  GridView,
-      GoodsListItem
-    },
-    props: {
-		  recommendList: {
-		    type: Array
-      }
+export default {
+  name: "DetailRecommendInfo",
+  components: {
+    GridView,
+    GoodsListItem
+  },
+  props: {
+    recommendList: {
+      type: Array
     }
-	}
+  }
+};
 </script>
 
 <style scoped>
-  .recommend-info {
-    padding: 5px;
-  }
+.recommend-info {
+  padding: 5px;
+}
 
-  .info-header {
-    line-height: 40px;
-    padding-left: 8px;
-    font-size: 15px;
-    color: #333;
-  }
+.info-header {
+  line-height: 40px;
+  padding-left: 8px;
+  font-size: 15px;
+  color: #333;
+}
 </style>

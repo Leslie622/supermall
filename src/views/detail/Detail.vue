@@ -1,14 +1,14 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detailnavbar"></detail-nav-bar>
+    <detail-nav-bar class="detailnavbar" @titleClick="titleClick"></detail-nav-bar>
     <scroll class="content" ref="scroll">
       <detail-swiper :top-images="topImages" />
       <detail-base-info :goods="goods" />
       <detail-shop-info :shop="shop" />
       <detail-goods-info :detail-info="detailInfo" @imageLoad="imageLoad" />
-      <detail-param-info :param-info="paramInfo"></detail-param-info>
-      <detail-comment-info :comment-info="commentInfo"></detail-comment-info>
-      <detail-recommend-info :recommend-list="recommendList"></detail-recommend-info>
+      <detail-param-info ref="paramInfo" :param-info="paramInfo"></detail-param-info>
+      <detail-comment-info ref="commentInfo" :comment-info="commentInfo"></detail-comment-info>
+      <detail-recommend-info ref="recommendInfo" :recommend-list="recommendList"></detail-recommend-info>
       <goods-list :goods="recommend" />
     </scroll>
   </div>
@@ -61,7 +61,9 @@ export default {
       paramInfo: {},
       commentInfo: {},
       recommendList: [],
-      recommend: []
+      recommend: [],
+      themeTopYs: [],
+      getThemeTopY: null
     };
   },
   mixins: [itemListenerMixin],
@@ -88,22 +90,28 @@ export default {
         this.commentInfo = data.rate.list[0];
       }
     });
-
     getRecommend().then(res => {
       this.recommend = res.data.list;
     });
+    this.getThemeTopY = debounce(() => {
+      this.themeTopYs = [];
+      this.themeTopYs.push(0);
+      this.themeTopYs.push(this.$refs.paramInfo.$el.offsetTop - 44);
+      this.themeTopYs.push(this.$refs.commentInfo.$el.offsetTop - 44);
+      this.themeTopYs.push(this.$refs.recommendInfo.$el.offsetTop - 44);
+      console.log(this.themeTopYs);
+    }, 200);
   },
   methods: {
     imageLoad() {
       this.$refs.scroll.refresh();
+      this.getThemeTopY();
+    },
+    titleClick(index) {
+      this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 500);
     }
-  }
-  // mounted() {
-  //   const refresh = debounce(this.$refs.scroll.refresh, 200);
-  //   this.$bus.$on("detailItemImageLoad", () => {
-  //     refresh();
-  //   });
-  // }
+  },
+  updated() {}
 };
 </script>
 
