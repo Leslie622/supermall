@@ -42,11 +42,11 @@ import Swiper from "components/content/bannerLoop/Swiper";
 import TabControl from "components/content/tabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
 import Scroll from "components/common/scroll/Scroll";
-import BackTop from "components/content/backTop/BackTop";
+// import BackTop from "components/content/backTop/BackTop";
 
 import { getHomeMultidata, getHomeGoods } from "network/home";
 import { debounce } from "common/utils";
-import { itemListenerMixin } from "common/mixin";
+import { itemListenerMixin, backTopMixin } from "common/mixin";
 
 export default {
   name: "Home",
@@ -57,8 +57,8 @@ export default {
     Swiper,
     TabControl,
     GoodsList,
-    Scroll,
-    BackTop
+    Scroll
+    // BackTop
   },
   data() {
     return {
@@ -70,13 +70,13 @@ export default {
         sell: { page: 0, list: [] }
       },
       currentType: "pop",
-      backTopIsShow: false,
+      // backTopIsShow: false,
       tabOffsetTop: 0,
       isTabShow: false,
       saveY: 0
     };
   },
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   created() {
     // 1.请求多个数据
     this.getHomeMultidata();
@@ -128,9 +128,9 @@ export default {
       this.$refs.tabControl1.currentIndex = index;
       this.$refs.tabControl2.currentIndex = index;
     },
-    backTop() {
-      this.$refs.scroll.scrollTo(0, 0);
-    },
+    // backTop() {
+    //   this.$refs.scroll.scrollTo(0, 0);
+    // },
     contentScroll(position) {
       this.backTopIsShow = position.y < -1000;
       //决定tabControl是否吸顶

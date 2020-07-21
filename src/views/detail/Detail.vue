@@ -1,7 +1,7 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detailnavbar" @titleClick="titleClick"></detail-nav-bar>
-    <scroll class="content" ref="scroll">
+    <detail-nav-bar class="detailnavbar" @titleClick="titleClick" ref="nav"></detail-nav-bar>
+    <scroll class="content" ref="scroll" :probe-type="3" @scroll="cotentScroll">
       <detail-swiper :top-images="topImages" />
       <detail-base-info :goods="goods" />
       <detail-shop-info :shop="shop" />
@@ -11,6 +11,8 @@
       <detail-recommend-info ref="recommendInfo" :recommend-list="recommendList"></detail-recommend-info>
       <goods-list :goods="recommend" />
     </scroll>
+    <detail-bottom-bar></detail-bottom-bar>
+    <back-top @click.native="backTop" v-show="backTopIsShow" />
   </div>
 </template>
  
@@ -23,6 +25,7 @@ import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 import DetailParamInfo from "./childComps/DetailParamInfo";
 import DetailCommentInfo from "./childComps/DetailCommentInfo";
 import DetailRecommendInfo from "./childComps/DetailRecommendInfo";
+import DetailBottomBar from "./childComps/DetailBottomBar";
 
 import Scroll from "components/common/scroll/Scroll";
 import GoodsList from "components/content/goods/GoodsList";
@@ -35,7 +38,7 @@ import {
   getRecommend
 } from "network/detail";
 import { debounce } from "common/utils";
-import { itemListenerMixin } from "common/mixin";
+import { itemListenerMixin, backTopMixin } from "common/mixin";
 
 export default {
   name: "Detail",
@@ -49,7 +52,8 @@ export default {
     DetailParamInfo,
     DetailCommentInfo,
     DetailRecommendInfo,
-    GoodsList
+    GoodsList,
+    DetailBottomBar
   },
   data() {
     return {
@@ -63,10 +67,11 @@ export default {
       recommendList: [],
       recommend: [],
       themeTopYs: [],
-      getThemeTopY: null
+      getThemeTopY: null,
+      currentIndex: 0
     };
   },
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   created() {
     //$route.params获取路由传过来的数据
     this.iid = this.$route.params.iid;
@@ -99,7 +104,7 @@ export default {
       this.themeTopYs.push(this.$refs.paramInfo.$el.offsetTop - 44);
       this.themeTopYs.push(this.$refs.commentInfo.$el.offsetTop - 44);
       this.themeTopYs.push(this.$refs.recommendInfo.$el.offsetTop - 44);
-      console.log(this.themeTopYs);
+      this.themeTopYs.push(Number.MAX_VALUE);
     }, 200);
   },
   methods: {
@@ -108,10 +113,24 @@ export default {
       this.getThemeTopY();
     },
     titleClick(index) {
-      this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 500);
+      this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 1000);
+    },
+    cotentScroll(position) {
+      const positionY = -position.y;
+      let length = this.themeTopYs.length;
+      for (let i = 0; i < length - 1; i++) {
+        if (
+          this.currentIndex !== i &&
+          positionY >= this.themeTopYs[i] &&
+          positionY < this.themeTopYs[i + 1]
+        ) {
+          this.currentIndex = i;
+          this.$refs.nav.currentIndex = this.currentIndex;
+        }
+      }
+      this.backTopIsShow = position.y < -1000;
     }
-  },
-  updated() {}
+  }
 };
 </script>
 
@@ -126,6 +145,6 @@ export default {
   z-index: 200;
 }
 .content {
-  height: calc(100vh - 44px);
+  height: calc(100vh - 102px);
 }
 </style>

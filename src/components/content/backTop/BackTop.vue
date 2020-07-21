@@ -14,7 +14,7 @@ export default {};
   display: flex;
   justify-content: center;
   right: 0;
-  bottom: 60px;
+  bottom: 70px;
   width: 20%;
   font-size: 0;
 }
