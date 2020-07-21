@@ -13,6 +13,12 @@ import CartListItem from "./CartListItem";
 import { mapGetters } from "vuex";
 
 export default {
+  props: {
+    cartBottonBarHeight: {
+      type: Number,
+      default: 0
+    }
+  },
   components: {
     Scroll,
     CartListItem
@@ -28,11 +34,6 @@ export default {
 
 <style scoped>
 .wrapper {
-  height: calc(100vh - 44px - 49px);
-}
-
-.cart-list {
-  width: 100%;
-  overflow: hidden;
+  height: calc(94vh - 105px);
 }
 </style>
