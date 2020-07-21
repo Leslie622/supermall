@@ -15,31 +15,31 @@ Vue.use(VueRouter)
 
 // 创建router
 const router = new VueRouter({
-  mode:"history",
-  routes:[
+  mode: "history",
+  routes: [
     {
       path: '',
-      redirect:"/home" 
+      redirect: "/home"
     },
     {
-      path:"/home",
-      component:Home
+      path: "/home",
+      component: Home
     },
     {
-      path:"/category",
-      component:Category
+      path: "/category",
+      component: Category
     },
     {
-      path:"/cart",
-      component:Cart
+      path: "/cart",
+      component: Cart
     },
     {
-      path:"/profile",
-      component:Profile
+      path: "/profile",
+      component: Profile
     },
     {
-      path:"/detail:iid",
-      component:Detail
+      path: "/detail:iid",
+      component: Detail
     }
   ]
 })

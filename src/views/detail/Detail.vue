@@ -10,8 +10,9 @@
       <detail-comment-info ref="commentInfo" :comment-info="commentInfo"></detail-comment-info>
       <detail-recommend-info ref="recommendInfo" :recommend-list="recommendList"></detail-recommend-info>
       <goods-list :goods="recommend" />
+      <div>{{$store.state.cartList.length}}</div>
     </scroll>
-    <detail-bottom-bar></detail-bottom-bar>
+    <detail-bottom-bar @addToCart="addToCart" />
     <back-top @click.native="backTop" v-show="backTopIsShow" />
   </div>
 </template>
@@ -129,6 +130,17 @@ export default {
         }
       }
       this.backTopIsShow = position.y < -1000;
+    },
+    addToCart() {
+      //获取购物车需要展示的信息
+      const product = {};
+      product.image = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.nowPrice;
+      product.iid = this.iid;
+
+      this.$store.dispatch("addCart",product)
     }
   }
 };
