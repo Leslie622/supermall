@@ -10,7 +10,6 @@
       <detail-comment-info ref="commentInfo" :comment-info="commentInfo"></detail-comment-info>
       <detail-recommend-info ref="recommendInfo" :recommend-list="recommendList"></detail-recommend-info>
       <goods-list :goods="recommend" />
-      <div>{{$store.state.cartList.length}}</div>
     </scroll>
     <detail-bottom-bar @addToCart="addToCart" />
     <back-top @click.native="backTop" v-show="backTopIsShow" />
