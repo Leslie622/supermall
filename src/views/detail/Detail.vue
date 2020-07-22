@@ -39,6 +39,7 @@ import {
 } from "network/detail";
 import { debounce } from "common/utils";
 import { itemListenerMixin, backTopMixin } from "common/mixin";
+import { mapActions } from "vuex"
 
 export default {
   name: "Detail",
@@ -108,6 +109,7 @@ export default {
     }, 200);
   },
   methods: {
+    ...mapActions(["addCart"]),
     imageLoad() {
       this.$refs.scroll.refresh();
       this.getThemeTopY();
@@ -139,7 +141,16 @@ export default {
       product.price = this.goods.nowPrice;
       product.iid = this.iid;
 
-      this.$store.dispatch("addCart",product)
+      // this.$store.dispatch("addCart", product).then(res => {
+      //   console.log(res);
+      // });
+
+      //使用了vuex的mapActions映射，需要引入vuex
+      //否则需要使用this.$store.dispatch.addCart
+      this.addCart(product).then((res) => {
+        this.$toast.show(res,500)
+        console.log(this.$toast);
+       })
     }
   }
 };
@@ -148,7 +159,6 @@ export default {
 <style scoped>
 #detail {
   position: relative;
-  z-index: 100;
   background-color: white;
 }
 .detailnavbar {

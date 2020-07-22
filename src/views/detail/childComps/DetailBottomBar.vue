@@ -35,6 +35,7 @@ export default {
 <style scoped>
 .bottom-bar {
   position: fixed;
+  z-index: 100;
   display: flex;
   align-items: center;
   left: 0;

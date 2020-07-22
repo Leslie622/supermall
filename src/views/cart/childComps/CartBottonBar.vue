@@ -107,7 +107,7 @@ export default {
 }
 .checkOutText {
   display: block;
-  padding: 6px 18px;
+  padding: 7px 14px;
   color: white;
   background-color: var(--color-tint);
   border-radius: 14px;
