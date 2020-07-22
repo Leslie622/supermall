@@ -1,7 +1,7 @@
 <template>
   <div class="cart">
     <nav-bar>
-      <div slot="center">购物车({{cartLength}})</div>
+      <div slot="center">购物车({{cartCount}})</div>
     </nav-bar>
     <cart-list></cart-list>
     <cart-button-bar ref="cartBottonBar" />
@@ -22,7 +22,7 @@ export default {
     CartButtonBar
   },
   computed: {
-    ...mapGetters(["cartLength"])
+    ...mapGetters(["cartCount"])
   }
 };
 </script>
