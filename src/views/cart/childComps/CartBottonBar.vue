@@ -1,7 +1,7 @@
 <template>
   <div class="cartButtonBar">
     <div class="selectAll">
-      <checked-button class="checkButton" />
+      <checked-button :is-checked="isSelectAll" class="checkButton" @click.native="checkedClick" />
       <span>全选</span>
     </div>
     <div class="checkOut">
@@ -17,11 +17,14 @@
 <script>
 import CheckedButton from "components/content/checkButton/CheckButton";
 
+import { mapGetters } from "vuex";
+
 export default {
   components: {
     CheckedButton
   },
   computed: {
+    ...mapGetters(["cartList"]),
     totalPrice() {
       return this.$store.state.cartList
         .filter(item => {
@@ -36,6 +39,20 @@ export default {
       return this.$store.state.cartList.filter(item => {
         return item.checked;
       }).length;
+    },
+    isSelectAll() {
+      // return !this.cartList.filter(item => !item.checked).length;
+      if (this.cartList.length === 0) return false;
+      return !this.cartList.find(item => !item.checked);
+    }
+  },
+  methods: {
+    checkedClick() {
+      if (this.isSelectAll) {
+        this.cartList.forEach(item => (item.checked = false));
+      } else {
+        this.cartList.forEach(item => (item.checked = true));
+      }
     }
   }
 };
@@ -53,7 +70,7 @@ export default {
   left: 0;
   right: 0;
   border-top: 1px solid rgb(247, 242, 242);
-    background-color: white;
+  background-color: white;
 }
 
 .selectAll {

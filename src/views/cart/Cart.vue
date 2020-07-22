@@ -4,7 +4,7 @@
       <div slot="center">购物车({{cartLength}})</div>
     </nav-bar>
     <cart-list></cart-list>
-    <cart-button-bar ref="cartBottonBar" :cartBottonBarHeight="cartBottonBarHeight"/>
+    <cart-button-bar ref="cartBottonBar" />
   </div>
 </template>
  
@@ -16,11 +16,6 @@ import CartButtonBar from "./childComps/CartBottonBar";
 import { mapGetters } from "vuex";
 
 export default {
-  data() {
-    return {
-      cartBottonBarHeight:0
-    }
-  },
   components: {
     NavBar,
     CartList,
@@ -28,11 +23,7 @@ export default {
   },
   computed: {
     ...mapGetters(["cartLength"])
-  },
-  mounted() {
-    console.log(this.$refs.cartBottonBar.$el.offsetHeight);
-    this.cartBottonBarHeight = this.$refs.cartBottonBar.$el.offsetHeight
-  },
+  }
 };
 </script>
 
