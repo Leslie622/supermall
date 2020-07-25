@@ -21,13 +21,13 @@ import { mapGetters } from "vuex";
 
 export default {
   components: {
-    CheckedButton
+    CheckedButton,
   },
   computed: {
     ...mapGetters(["cartList"]),
     totalPrice() {
       return this.$store.state.cartList
-        .filter(item => {
+        .filter((item) => {
           return item.checked;
         })
         .reduce((preValue, item) => {
@@ -36,25 +36,25 @@ export default {
         .toFixed(2);
     },
     checkLength() {
-      return this.$store.state.cartList.filter(item => {
+      return this.$store.state.cartList.filter((item) => {
         return item.checked;
       }).length;
     },
     isSelectAll() {
       // return !this.cartList.filter(item => !item.checked).length;
       if (this.cartList.length === 0) return false;
-      return !this.cartList.find(item => !item.checked);
-    }
+      return !this.cartList.find((item) => !item.checked);
+    },
   },
   methods: {
     checkedClick() {
       if (this.isSelectAll) {
-        this.cartList.forEach(item => (item.checked = false));
+        this.cartList.forEach((item) => (item.checked = false));
       } else {
-        this.cartList.forEach(item => (item.checked = true));
+        this.cartList.forEach((item) => (item.checked = true));
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -63,7 +63,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 6%;
+  height: 8%;
 
   position: fixed;
   bottom: 49px;
@@ -91,6 +91,7 @@ export default {
   align-items: center;
 
   width: 55%;
+  height: 100%;
 }
 .totalPrice {
   display: flex;
@@ -106,11 +107,13 @@ export default {
   font-weight: 600;
 }
 .checkOutText {
-  display: block;
-  padding: 7px 14px;
+  display: flex;
+  align-items: center;
+  padding: 4% 5%;
+  height: 65%;
   color: white;
   background-color: var(--color-tint);
-  border-radius: 14px;
+  border-radius: 12px;
   margin-right: 10px;
 }
 </style>

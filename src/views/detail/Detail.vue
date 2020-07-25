@@ -35,11 +35,11 @@ import {
   Goods,
   Shop,
   GoodsParam,
-  getRecommend
+  getRecommend,
 } from "network/detail";
 import { debounce } from "common/utils";
 import { itemListenerMixin, backTopMixin } from "common/mixin";
-import { mapActions } from "vuex"
+import { mapActions } from "vuex";
 
 export default {
   name: "Detail",
@@ -54,7 +54,7 @@ export default {
     DetailCommentInfo,
     DetailRecommendInfo,
     GoodsList,
-    DetailBottomBar
+    DetailBottomBar,
   },
   data() {
     return {
@@ -69,7 +69,7 @@ export default {
       recommend: [],
       themeTopYs: [],
       getThemeTopY: null,
-      currentIndex: 0
+      currentIndex: 0,
     };
   },
   mixins: [itemListenerMixin, backTopMixin],
@@ -77,7 +77,7 @@ export default {
     //$route.params获取路由传过来的数据
     this.iid = this.$route.params.iid;
     // 请求数据
-    getDetail(this.iid).then(res => {
+    getDetail(this.iid).then((res) => {
       const data = res.result;
       this.topImages = data.itemInfo.topImages;
       //获取商品信息
@@ -96,7 +96,7 @@ export default {
         this.commentInfo = data.rate.list[0];
       }
     });
-    getRecommend().then(res => {
+    getRecommend().then((res) => {
       this.recommend = res.data.list;
     });
     this.getThemeTopY = debounce(() => {
@@ -148,11 +148,10 @@ export default {
       //使用了vuex的mapActions映射，需要引入vuex
       //否则需要使用this.$store.dispatch.addCart
       this.addCart(product).then((res) => {
-        this.$toast.show(res,500)
-        console.log(this.$toast);
-       })
-    }
-  }
+        this.$toast.show(res, 500);
+      });
+    },
+  },
 };
 </script>
 
