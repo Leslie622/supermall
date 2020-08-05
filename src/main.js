@@ -10,6 +10,7 @@ import VueLazyload from "vue-lazyload"
 //引入自定义的toast插件
 import toast from "components/common/toast"
 
+//全局配置
 Vue.config.productionTip = false
 
 //事件总线
