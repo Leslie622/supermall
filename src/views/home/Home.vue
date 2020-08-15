@@ -82,13 +82,13 @@ export default {
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
   },
-  mounted() {
-    //监听item中图片加载完成
-    const refresh = debounce(this.$refs.scroll.refresh, 200);
-    this.$bus.$on("homeItemImageLoad", () => {
-      refresh();
-    });
-  },
+  // mounted() {
+  //   //监听item中图片加载完成
+  //   const refresh = debounce(this.$refs.scroll.refresh, 200);
+  //   this.$bus.$on("homeItemImageLoad", () => {
+  //     refresh();
+  //   });
+  // },
   methods: {
     /*
      *  网络请求相关方法
